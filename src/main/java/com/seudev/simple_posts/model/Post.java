@@ -1,6 +1,8 @@
 package com.seudev.simple_posts.model;
 
+import static com.seudev.simple_posts.model.Post.QUERY_COUNT_POSTS_OF_AUTHOR;
 import static com.seudev.simple_posts.model.Post.QUERY_DELETE_POSTS_BY_AUTHOR;
+import static com.seudev.simple_posts.model.Post.QUERY_POSTS_BY_AUTHOR;
 import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
@@ -25,11 +27,21 @@ import com.seudev.simple_posts.util.Identifiable;
 @Entity
 @Table(name = "post")
 @NamedQuery(name = QUERY_DELETE_POSTS_BY_AUTHOR, query = "DELETE FROM Post p WHERE p.author.id = :author")
+@NamedQuery(
+    name = QUERY_POSTS_BY_AUTHOR,
+    query = "SELECT p FROM Post p WHERE p.author.id = :author ORDER BY p.createdAt DESC")
+@NamedQuery(
+    name = QUERY_COUNT_POSTS_OF_AUTHOR,
+    query = "SELECT COUNT(p) FROM Post p WHERE p.author.id = :author")
 public class Post implements Serializable, Identifiable<UUID> {
 
     private static final long serialVersionUID = 1L;
 
     public static final String QUERY_DELETE_POSTS_BY_AUTHOR = "Post.QUERY_DELETE_POSTS_BY_AUTHOR";
+
+    public static final String QUERY_POSTS_BY_AUTHOR = "Post.QUERY_POSTS_BY_AUTHOR";
+
+    public static final String QUERY_COUNT_POSTS_OF_AUTHOR = "Post.QUERY_COUNT_POSTS_OF_AUTHOR";
 
     @Id
     @GeneratedValue
