@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: ./Dockerfile
+      args:
+        LOCALE: C.UTF-8
+    image: seudev/postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: "${DATABASE_NAME}"
+      POSTGRES_USER: "${DATABASE_USERNAME}"
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+    networks:
+      - database
+    ports:
+      - 5432:5432
+    volumes:
+      - database:/var/lib/postgresql/data
+
+networks:
+  database:
+
+volumes:
+  database:

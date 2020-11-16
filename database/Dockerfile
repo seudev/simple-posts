@@ -1,0 +1,5 @@
+FROM postgres:13-alpine
+
+ARG LOCALE
+ENV LANG $LOCALE
+ENV LC_ALL $LOCALE
