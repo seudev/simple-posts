@@ -1,8 +1,10 @@
 package com.seudev.simple_posts.model;
 
 import static com.seudev.simple_posts.model.Post.QUERY_COUNT_POSTS_OF_AUTHOR;
+import static com.seudev.simple_posts.model.Post.QUERY_COUNT_POSTS_OF_TAG;
 import static com.seudev.simple_posts.model.Post.QUERY_DELETE_POSTS_BY_AUTHOR;
 import static com.seudev.simple_posts.model.Post.QUERY_POSTS_BY_AUTHOR;
+import static com.seudev.simple_posts.model.Post.QUERY_POSTS_BY_TAG;
 import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
@@ -33,6 +35,12 @@ import com.seudev.simple_posts.util.Identifiable;
 @NamedQuery(
     name = QUERY_COUNT_POSTS_OF_AUTHOR,
     query = "SELECT COUNT(p) FROM Post p WHERE p.author.id = :author")
+@NamedQuery(
+    name = QUERY_POSTS_BY_TAG,
+    query = "SELECT DISTINCT p FROM Post p INNER JOIN p.tags t WHERE t = :tag ORDER BY p.createdAt DESC")
+@NamedQuery(
+    name = QUERY_COUNT_POSTS_OF_TAG,
+    query = "SELECT COUNT(DISTINCT p) FROM Post p INNER JOIN p.tags t WHERE t = :tag")
 public class Post implements Serializable, Identifiable<UUID> {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +50,10 @@ public class Post implements Serializable, Identifiable<UUID> {
     public static final String QUERY_POSTS_BY_AUTHOR = "Post.QUERY_POSTS_BY_AUTHOR";
 
     public static final String QUERY_COUNT_POSTS_OF_AUTHOR = "Post.QUERY_COUNT_POSTS_OF_AUTHOR";
+
+    public static final String QUERY_POSTS_BY_TAG = "Post.QUERY_POSTS_BY_TAG";
+
+    public static final String QUERY_COUNT_POSTS_OF_TAG = "Post.QUERY_COUNT_POSTS_OF_TAG";
 
     @Id
     @GeneratedValue
