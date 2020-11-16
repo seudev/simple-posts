@@ -1,5 +1,7 @@
 package com.seudev.simple_posts.model;
 
+import static com.seudev.simple_posts.model.AppUser.QUERY_IS_UNIQUE_NAME;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -8,15 +10,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.seudev.simple_posts.util.Identifiable;
 
 @Entity
 @Table(name = "app_user")
+@NamedQuery(name = QUERY_IS_UNIQUE_NAME, query = "SELECT COUNT(u) = 0 FROM AppUser u WHERE LOWER(u.name) = :name")
 public class AppUser implements Serializable, Identifiable<UUID> {
 
     private static final long serialVersionUID = 1L;
+
+    public static final String QUERY_IS_UNIQUE_NAME = "AppUser.QUERY_IS_UNIQUE_NAME";
 
     @Id
     @GeneratedValue
