@@ -1,5 +1,6 @@
 package com.seudev.simple_posts.model;
 
+import static com.seudev.simple_posts.model.Post.QUERY_DELETE_POSTS_BY_AUTHOR;
 import static javax.persistence.FetchType.LAZY;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -22,9 +24,12 @@ import com.seudev.simple_posts.util.Identifiable;
 
 @Entity
 @Table(name = "post")
+@NamedQuery(name = QUERY_DELETE_POSTS_BY_AUTHOR, query = "DELETE FROM Post p WHERE p.author.id = :author")
 public class Post implements Serializable, Identifiable<UUID> {
 
     private static final long serialVersionUID = 1L;
+
+    public static final String QUERY_DELETE_POSTS_BY_AUTHOR = "Post.QUERY_DELETE_POSTS_BY_AUTHOR";
 
     @Id
     @GeneratedValue
